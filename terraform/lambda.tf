@@ -14,7 +14,7 @@ resource "null_resource" "goose_nest_scraper_lambda_layer_payload" {
   }
 }
 
-resource "aws_lambda_layer_version" "lambda_layer" {
+resource "aws_lambda_layer_version" "goose_nest_scraper_lambda_layer" {
   filename   = "goose_nest_scraper_lambda_layer_payload.zip"
   layer_name = "goose_nest_scraper_lambda_layer"
 
