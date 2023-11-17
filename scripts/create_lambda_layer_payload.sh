@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e # Exit if any command fails (returns non-zero exit code)
+
 # Check if the required arguments are provided
 while getopts ":r:o:" opt; do
     case $opt in
@@ -29,12 +31,16 @@ fi
 project_root=$(pwd | sed 's|\(.*\/goose-nest\).*|\1|')
 
 # Build the Lambda layer using the Lambda Docker image
-docker run -v "$project_root":/var/task "public.ecr.aws/sam/build-python3.11" /bin/sh -c "pip install -r $requirements_file -t python/lib/python3.6/site-packages/; exit"
+docker run \
+  -v "$project_root":/var/task \
+  "public.ecr.aws/sam/build-python3.11" \
+  /bin/sh -c "pip install -r $requirements_file -t python/lib/python3.6/site-packages/; exit"
 
 # Create a zip file for the Lambda layer
-zip -r $output_path $project_root/python
+cd $project_root
+zip -r $output_path python
 
 # Clean up temporary directory
-rm -r $project_root/python
+rm -rf python
 
 echo "Lambda layer payload created at: $output_path"
