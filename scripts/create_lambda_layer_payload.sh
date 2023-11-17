@@ -34,10 +34,11 @@ project_root=$(pwd | sed 's|\(.*\/goose-nest\).*|\1|')
 docker run \
   -v "$project_root":/var/task \
   "public.ecr.aws/sam/build-python3.11" \
-  /bin/sh -c "pip install -r $requirements_file -t python/lib/python3.6/site-packages/; exit"
+  /bin/sh -c "pip install -r $requirements_file -t python/lib/python3.11/site-packages/; exit"
 
 # Create a zip file for the Lambda layer
 cd $project_root
+echo $output_path
 zip -r $output_path python
 
 # Clean up temporary directory
