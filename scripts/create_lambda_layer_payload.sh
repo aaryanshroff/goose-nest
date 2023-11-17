@@ -26,13 +26,15 @@ if [ -z "$requirements_file" ] || [ -z "$output_path" ]; then
     exit 1
 fi
 
+project_root=$(pwd | sed 's|\(.*\/goose-nest\).*|\1|')
+
 # Build the Lambda layer using the Lambda Docker image
-docker run -v "$PWD":/var/task "public.ecr.aws/sam/build-python3.11" /bin/sh -c "pip install -r $requirements_file -t python/lib/python3.6/site-packages/; exit"
+docker run -v "$project_root":/var/task "public.ecr.aws/sam/build-python3.11" /bin/sh -c "pip install -r $requirements_file -t python/lib/python3.6/site-packages/; exit"
 
 # Create a zip file for the Lambda layer
-zip -r $output_path python
+zip -r $output_path $project_root/python
 
 # Clean up temporary directory
-rm -r python
+rm -r $project_root/python
 
 echo "Lambda layer payload created at: $output_path"
