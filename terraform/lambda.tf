@@ -10,12 +10,12 @@ resource "null_resource" "goose_nest_scraper_lambda_layer_payload" {
   }
 
   provisioner "local-exec" {
-    command = "./scripts/create_lambda_layer_payload.sh src/requirements.txt goose_nest_scraper_lambda_layer_payload.zip"
+    command = "${path.module}/../scripts/create_lambda_layer_payload.sh -r src/requirements.txt -o ${path.module}/goose_nest_scraper_lambda_layer_payload.zip"
   }
 }
 
 resource "aws_lambda_layer_version" "goose_nest_scraper_lambda_layer" {
-  filename   = "goose_nest_scraper_lambda_layer_payload.zip"
+  filename   = "${path.module}/goose_nest_scraper_lambda_layer_payload.zip"
   layer_name = "goose_nest_scraper_lambda_layer"
 
   compatible_runtimes = ["python3.11"]
