@@ -4,7 +4,7 @@
 resource "aws_lambda_layer_version" "goose_nest_scraper_lambda_layer" {
   filename   = local.goose_nest_scraper_lambda_layer_payload_path
   layer_name = "goose_nest_scraper_lambda_layer"
-  source_code_hash = filesha256(local.goose_nest_scraper_lambda_layer_payload_path)
+  source_code_hash = filebase64sha256(local.goose_nest_scraper_lambda_layer_payload_path)
 
   compatible_runtimes = ["python3.11"]
 
