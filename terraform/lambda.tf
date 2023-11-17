@@ -19,4 +19,6 @@ resource "aws_lambda_layer_version" "lambda_layer" {
   layer_name = "goose_nest_scraper_lambda_layer"
 
   compatible_runtimes = ["python3.11"]
+
+  depends_on = [null_resource.goose_nest_scraper_lambda_layer_payload]
 }
