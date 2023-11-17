@@ -1,5 +1,5 @@
 ##############################################
-# Goose Nest Scraper Lambda layer
+# Goose Nest Scraper Lambda Layer
 ##############################################
 
 # So that we can conditionally create a new lambda layer payload if requirements.txt changes
