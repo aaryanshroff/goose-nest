@@ -19,4 +19,4 @@ zip -r $output_path python
 # Clean up temporary directory
 rm -r python
 
-echo "Lambda layer package created at: $output_path"
+echo "Lambda layer payload created at: $output_path"
