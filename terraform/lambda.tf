@@ -58,3 +58,12 @@ resource "aws_lambda_function" "goose_nest_scraper_lambda_function" {
 
   depends_on = [ data.archive_file.goose_nest_scraper_lambda_function_payload ]
 }
+
+# Clean up payload zip file
+resource "null_resource" "destroy_goose_nest_scraper_lambda_layer_payload" {
+  depends_on = [aws_lambda_function.goose_nest_scraper_lambda_function]
+
+  provisioner "local-exec" {
+    command = "rm -rf ${local.goose_nest_scraper_lambda_function_payload_path}"
+  }
+}
