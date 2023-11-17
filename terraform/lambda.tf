@@ -56,6 +56,8 @@ resource "aws_lambda_function" "goose_nest_scraper_lambda_function" {
 
   runtime = "python3.11"
 
+  layers = [ aws_lambda_layer_version.goose_nest_scraper_lambda_layer.arn ]
+
   depends_on = [ data.archive_file.goose_nest_scraper_lambda_function_payload ]
 }
 
