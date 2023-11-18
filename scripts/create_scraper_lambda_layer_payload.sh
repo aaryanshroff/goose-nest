@@ -41,6 +41,10 @@ cd $project_root
 firefox_driver_url="https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz"
 curl -L $firefox_driver_url | tar -xz -C python
 
+# Download Firefox and include it in the layer
+firefox_url="https://download.mozilla.org/?product=firefox-latest-ssl&os=linux"
+curl -L $firefox_url | tar -xz -C python
+
 # Create a zip file for the Lambda layer
 zip -r $output_path python
 
