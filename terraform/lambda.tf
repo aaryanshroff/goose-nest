@@ -1,30 +1,4 @@
 ##############################################
-# Goose Nest Scraper Python Layer
-##############################################
-resource "aws_lambda_layer_version" "goose_nest_scraper_python_layer" {
-  filename   = local.goose_nest_scraper_python_layer_payload_path
-  layer_name = "goose_nest_scraper_python_layer"
-  source_code_hash = filebase64sha256(local.goose_nest_scraper_python_layer_payload_path)
-
-  compatible_runtimes = ["python3.11"]
-
-  skip_destroy = true
-}
-
-##############################################
-# Goose Nest Scraper Chrome Layer
-##############################################
-resource "aws_lambda_layer_version" "goose_nest_scraper_chrome_layer" {
-  filename   = local.goose_nest_scraper_chrome_layer_payload_path
-  layer_name = "goose_nest_scraper_chrome_layer"
-  source_code_hash = filebase64sha256(local.goose_nest_scraper_chrome_layer_payload_path)
-
-  compatible_runtimes = ["python3.11"]
-
-  skip_destroy = true
-}
-
-##############################################
 # Goose Nest Scraper Lambda Function
 ##############################################
 data "archive_file" "goose_nest_scraper_lambda_function_payload" {
