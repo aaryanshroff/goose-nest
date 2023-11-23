@@ -77,8 +77,9 @@ tar -xf $CHROMELAYER_DIR/headless-chromium.zip -C $CHROMELAYER_DIR/bin/
 rm $CHROMELAYER_DIR/headless-chromium.zip
 
 # Download shared linux libs
-curl -SL https://github.com/21Buttons/pychromeless/blob/master/lib/libORBit-2.so.0?raw=true -o $CHROMELAYER_DIR/lib/libORBit-2.so.0
-curl -SL https://github.com/21Buttons/pychromeless/blob/master/lib/libgconf-2.so.4?raw=true -o $CHROMELAYER_DIR/lib/libgconf-2.so.4
+mkdir -p chromelayer/lib
+curl -L https://github.com/21Buttons/pychromeless/blob/master/lib/libORBit-2.so.0?raw=true -o $CHROMELAYER_DIR/lib/libORBit-2.so.0
+curl -L https://github.com/21Buttons/pychromeless/blob/master/lib/libgconf-2.so.4?raw=true -o $CHROMELAYER_DIR/lib/libgconf-2.so.4
 
 # Create a zip file for the Chrome Lambda layer
 zip -r $chrome_layer_output $CHROMELAYER_DIR
