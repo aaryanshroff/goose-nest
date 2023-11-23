@@ -63,8 +63,8 @@ CHROMEDRIVER_VERSION="2.32"
 HEADLESS_CHROMIUM_VERSION="1.0.0-29"
 CHROMELAYER_DIR="chromelayer"
 
-rm -rf chromelayer
-mkdir -p chromelayer/bin
+rm -rf $CHROMELAYER_DIR
+mkdir -p $CHROMELAYER_DIR/bin
 
 # Download and unzip chromedriver
 curl -L https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip -o $CHROMELAYER_DIR/chromedriver.zip
@@ -82,9 +82,11 @@ curl -L https://github.com/21Buttons/pychromeless/blob/master/lib/libORBit-2.so.
 curl -L https://github.com/21Buttons/pychromeless/blob/master/lib/libgconf-2.so.4?raw=true -o $CHROMELAYER_DIR/lib/libgconf-2.so.4
 
 # Create a zip file for the Chrome Lambda layer
-zip -r $chrome_layer_output $CHROMELAYER_DIR
+cd $CHROMELAYER_DIR
+zip -r ../$chrome_layer_output *
+cd -
 
 # Clean up temporary directory
-rm -rf chromelayer
+rm -rf $CHROMELAYER_DIR
 
 echo "Lambda layers created at: $python_layer_output and $chrome_layer_output"
