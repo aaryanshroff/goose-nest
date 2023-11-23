@@ -1,10 +1,23 @@
 ##############################################
-# Goose Nest Scraper Lambda Layer
+# Goose Nest Scraper Python Layer
 ##############################################
-resource "aws_lambda_layer_version" "goose_nest_scraper_lambda_layer" {
-  filename   = local.goose_nest_scraper_lambda_layer_payload_path
-  layer_name = "goose_nest_scraper_lambda_layer"
-  source_code_hash = filebase64sha256(local.goose_nest_scraper_lambda_layer_payload_path)
+resource "aws_lambda_layer_version" "goose_nest_scraper_python_layer" {
+  filename   = local.goose_nest_scraper_python_layer_payload_path
+  layer_name = "goose_nest_scraper_python_layer"
+  source_code_hash = filebase64sha256(local.goose_nest_scraper_python_layer_payload_path)
+
+  compatible_runtimes = ["python3.11"]
+
+  skip_destroy = true
+}
+
+##############################################
+# Goose Nest Scraper Chrome Layer
+##############################################
+resource "aws_lambda_layer_version" "goose_nest_scraper_chrome_layer" {
+  filename   = local.goose_nest_scraper_chrome_layer_payload_path
+  layer_name = "goose_nest_scraper_chrome_layer"
+  source_code_hash = filebase64sha256(local.goose_nest_scraper_chrome_layer_payload_path)
 
   compatible_runtimes = ["python3.11"]
 
@@ -32,7 +45,7 @@ resource "aws_lambda_function" "goose_nest_scraper_lambda_function" {
 
   runtime = "python3.11"
 
-  layers = [ aws_lambda_layer_version.goose_nest_scraper_lambda_layer.arn ]
+  layers = [ aws_lambda_layer_version.goose_nest_scraper_chrome_layer.arn, aws_lambda_layer_version.goose_nest_scraper_python_layer.arn ]
 
   depends_on = [ data.archive_file.goose_nest_scraper_lambda_function_payload ]
 }
