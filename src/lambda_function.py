@@ -1,7 +1,9 @@
 from selenium import webdriver
 
 def lambda_handler(event, context):
-  service = webdriver.FirefoxService(executable_path="/opt/python/geckodriver")
-  driver = webdriver.Firefox(service=service)
+  options = webdriver.ChromeOptions()
+  options.add_argument("--headless")
+
+  browser = webdriver.Chrome(options=options)
 
   return "Hello, Selenium"
