@@ -6,3 +6,5 @@ aws ecr get-login-password --region us-east-1 |
 docker tag docker-image:test 281808852508.dkr.ecr.us-east-1.amazonaws.com/goose_nest_scraper_ecr_repository:latest
 
 docker push 281808852508.dkr.ecr.us-east-1.amazonaws.com/goose_nest_scraper_ecr_repository:latest
+
+aws lambda update-function-code --function-name goose_nest_scraper_lambda_function
