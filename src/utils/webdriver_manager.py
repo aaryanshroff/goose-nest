@@ -12,6 +12,6 @@ def setup_webdriver():
 
   service = ChromeService(executable_path="/opt/chromedriver-linux64/chromedriver")
 
-  driver = Chrome(service=service, options=options)
+  driver = Chrome(service=service, options=chrome_options)
 
   return driver
