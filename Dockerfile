@@ -9,10 +9,8 @@ RUN curl -L "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/119.0.6
   unzip /tmp/chromedriver-linux64.zip -d /opt/ && \
   unzip /tmp/chrome-linux64.zip -d /opt/
 
-COPY src/requirements.txt ${LAMBDA_TASK_ROOT}
+COPY src/ ${LAMBDA_TASK_ROOT}
 
 RUN pip install -r requirements.txt
-
-COPY src/lambda_function.py ${LAMBDA_TASK_ROOT}
 
 CMD [ "lambda_function.lambda_handler" ]
