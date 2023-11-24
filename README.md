@@ -8,7 +8,7 @@ $ source setup_dev.sh
 ```
 
 ### Testing the Lambda container image locally
-1. Start the Docker daemon
+1. Start the Docker daemon.
 2. ```bash
    $ pwd
    goose-nest
