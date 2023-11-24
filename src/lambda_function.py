@@ -24,6 +24,9 @@ def lambda_handler(event, context):
 
       entries.append(inner_text)
       hrefs.append(href)
+    
+  print(entries)
+  print(hrefs)
   
   driver.quit()
     
