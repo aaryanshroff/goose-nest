@@ -31,3 +31,6 @@ def lambda_handler(event, context):
   driver.quit()
     
   return json.dumps(entries)
+
+if __name__ == '__main__':
+  print(lambda_handler(None, None))
