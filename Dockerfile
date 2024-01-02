@@ -1,13 +1,18 @@
+# Amazon Linux 2 Distro
 FROM public.ecr.aws/lambda/python:3.11
 
-# TODO: Remove bloat
+# Install common deps
 RUN yum -y update && \
-  yum -y install unzip gtk3 alsa-lib
+  yum -y install tar gzip bzip2 gtk3 alsa-lib
 
-RUN curl -L "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/119.0.6045.105/linux64/chromedriver-linux64.zip" -o "/tmp/chromedriver-linux64.zip" && \
-  curl -L "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/119.0.6045.105/linux64/chrome-linux64.zip" -o "/tmp/chrome-linux64.zip" && \
-  unzip /tmp/chromedriver-linux64.zip -d /opt/ && \
-  unzip /tmp/chrome-linux64.zip -d /opt/
+# Install gecko driver (Firefox driver)
+RUN curl -L "https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz" -o "/tmp/geckodriver-v0.33.0-linux64.tar.gz" && \
+  tar -xf /tmp/geckodriver-v0.33.0-linux64.tar.gz -C /opt/
+
+# Install Firefox
+# TODO: Figure out how to pin to specific version
+RUN curl -L "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-CA" -o "/tmp/firefox.tar.bz2" && \
+  tar -xf /tmp/firefox.tar.bz2 -C /opt/
 
 COPY src/ ${LAMBDA_TASK_ROOT}
 
