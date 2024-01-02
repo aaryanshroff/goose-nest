@@ -3,34 +3,42 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from utils.webdriver_manager import setup_webdriver
+from utils.webdriver_manager import setup_webdriver, shutdown_webdriver
+
 
 def lambda_handler(event, context):
-  driver = setup_webdriver()
+    driver = setup_webdriver()
 
-  driver.get('https://facebook.com/marketplace/toronto/search?query=rentals')
+    driver.get('https://facebook.com/marketplace/toronto/search?query=rentals')
 
-  wait = WebDriverWait(driver, 10)
-  collection_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '[aria-label="Collection of Marketplace items"]')))
+    print("Waiting for page GET...")
+    wait = WebDriverWait(driver, 10)
 
-  link_elements = driver.find_elements(By.CSS_SELECTOR, '[aria-label="Collection of Marketplace items"] a')
+    print("Page GET complete. Waiting for dynamic DOM elements to load...")
+    collection_element = wait.until(EC.presence_of_element_located(
+        (By.CSS_SELECTOR, '[aria-label="Collection of Marketplace items"]')))
+    print("DOM elements finished loading.")
 
-  entries = []
-  hrefs = []
+    link_elements = driver.find_elements(
+        By.CSS_SELECTOR, '[aria-label="Collection of Marketplace items"] a')
 
-  for element in link_elements:
-      inner_text = element.text
-      href = element.get_attribute('href')
+    entries = []
+    hrefs = []
 
-      entries.append(inner_text)
-      hrefs.append(href)
-    
-  print(entries)
-  print(hrefs)
-  
-  driver.quit()
-    
-  return json.dumps(entries)
+    for element in link_elements:
+        inner_text = element.text
+        href = element.get_attribute('href')
+
+        entries.append(inner_text)
+        hrefs.append(href)
+
+    print(entries)
+    print(hrefs)
+
+    shutdown_webdriver(driver=driver)
+
+    return json.dumps(entries)
+
 
 if __name__ == '__main__':
-  print(lambda_handler(None, None))
+    lambda_handler(None, None)
