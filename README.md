@@ -1,13 +1,17 @@
+# ⛔️ [DEPRECATED] Replaced by [goose-nest-chrome](https://github.com/aaryanshroff/goose-nest-chrome)
+
 # Goose Nest Housing Bot
 
 ## Contributing
 
 ### Set up dev environment
+
 ```bash
 $ source setup_dev.sh
 ```
 
 ### Testing the Lambda container image locally
+
 1. Start the Docker daemon.
 2. ```bash
    $ pwd
