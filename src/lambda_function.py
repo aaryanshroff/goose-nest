@@ -4,20 +4,23 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from utils.webdriver_manager import setup_webdriver, shutdown_webdriver
+from logger import LOGGER
 
 
 def lambda_handler(event, context):
+    LOGGER.info("Setting up driver...")
     driver = setup_webdriver()
+    LOGGER.info("Driver setup complete.")
 
-    driver.get('https://facebook.com/marketplace/toronto/search?query=rentals')
+    LOGGER.info("Waiting for page GET...")
+    driver.get('https://example.com')
 
-    print("Waiting for page GET...")
+    LOGGER.info("Page GET complete. Waiting for dynamic DOM elements to load...")
     wait = WebDriverWait(driver, 10)
-
-    print("Page GET complete. Waiting for dynamic DOM elements to load...")
     collection_element = wait.until(EC.presence_of_element_located(
         (By.CSS_SELECTOR, '[aria-label="Collection of Marketplace items"]')))
-    print("DOM elements finished loading.")
+
+    LOGGER.info("DOM elements finished loading.")
 
     link_elements = driver.find_elements(
         By.CSS_SELECTOR, '[aria-label="Collection of Marketplace items"] a')
@@ -32,10 +35,10 @@ def lambda_handler(event, context):
         entries.append(inner_text)
         hrefs.append(href)
 
-    print(entries)
-    print(hrefs)
+    LOGGER.info(entries)
+    LOGGER.info(hrefs)
 
-    shutdown_webdriver(driver=driver)
+    # shutdown_webdriver(driver=driver)
 
     return json.dumps(entries)
 
