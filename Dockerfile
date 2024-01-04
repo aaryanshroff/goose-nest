@@ -1,18 +1,25 @@
 # Amazon Linux 2 Distro
 FROM public.ecr.aws/lambda/python:3.11
 
-# Install common deps
+# Install helper deps
 RUN yum -y update && \
-  yum -y install tar gzip bzip2 gtk3 alsa-lib
+  yum -y install unzip
 
-# Install gecko driver (Firefox driver)
-RUN curl -L "https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz" -o "/tmp/geckodriver-v0.33.0-linux64.tar.gz" && \
-  tar -xf /tmp/geckodriver-v0.33.0-linux64.tar.gz -C /opt/
+# Install chromedriver
+RUN curl -L "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/linux64/chromedriver-linux64.zip" -o "/tmp/chromedriver-linux64.zip" && \
+  unzip /tmp/chromedriver-linux64.zip -d /opt/ && \
+  mv /opt/chromedriver-linux64 /opt/chromedriver
 
-# Install Firefox
-# TODO: Figure out how to pin to specific version
-RUN curl -L "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-CA" -o "/tmp/firefox.tar.bz2" && \
-  tar -xf /tmp/firefox.tar.bz2 -C /opt/
+# Install Chrome
+RUN curl -L "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/linux64/chrome-linux64.zip" -o "/tmp/chrome-linux64.zip" && \
+  unzip /tmp/chrome-linux64.zip -d /opt/ && \
+  mv /opt/chrome-linux64 /opt/chrome
+
+# Install Chrome deps
+RUN yum -y install atk cups-libs gtk3 libXcomposite alsa-lib \
+  libXcursor libXdamage libXext libXi libXrandr libXScrnSaver \
+  libXtst pango at-spi2-atk libXt xorg-x11-server-Xvfb \
+  xorg-x11-xauth dbus-glib dbus-glib-devel nss mesa-libgbm
 
 COPY src/ ${LAMBDA_TASK_ROOT}
 
